@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Dark Toggle
 // @namespace    local.andrea.gnu-emacs-manual
-// @version      0.2.1
+// @version      0.2.2
 // @description  Improve readability (width/typography) + dark mode toggle on gnu.org Emacs manual pages
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*
@@ -270,6 +270,20 @@ html.vm-emacs-manual dl.table {
   border: 1px solid var(--vm-border);
   border-radius: var(--vm-radius);
   background: color-mix(in oklab, var(--vm-surface) 65%, transparent);
+}
+html.vm-emacs-manual dt,
+html.vm-emacs-manual dd {
+  color: var(--vm-fg) !important;
+}
+html.vm-emacs-manual a.copiable-link {
+  color: var(--vm-link) !important;
+  opacity: .85;
+  text-decoration: none !important;
+}
+html.vm-emacs-manual a.copiable-link:hover {
+  opacity: 1;
+  text-decoration: underline !important;
+  text-decoration-thickness: .10em;
 }
 html.vm-emacs-manual dl.table > dt {
   font-weight: 650;
