@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Dark Toggle
 // @namespace    local.andrea.gnu-emacs-manual
-// @version      0.2.4
+// @version      0.2.5
 // @description  Improve readability (width/typography) + dark mode toggle on gnu.org Emacs manual pages
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*
@@ -224,6 +224,13 @@ html.vm-emacs-manual .samp {
   border: 1px solid var(--vm-code-border);
   padding: .12em .38em;
   border-radius: 10px;
+}
+
+/* If inline code is wrapped in a link (e.g. index entries),
+   keep the chip clean: no underline inside the chip. */
+html.vm-emacs-manual a code,
+html.vm-emacs-manual a code * {
+  text-decoration: none !important;
 }
 
 html.vm-emacs-manual kbd,
@@ -533,6 +540,35 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
   window.addEventListener("DOMContentLoaded", ensureDocCard, { once: true });
   window.addEventListener("DOMContentLoaded", ensureButton, { once: true });
 
+  function cleanupPrintindexColons() {
+    // Printindex entries often have a trailing ':' outside the <a>.
+    // Remove it to keep the entry chip visually clean.
+    const tds = document.querySelectorAll(
+      'td.printindex-index-entry, td.printindex-index-subentry, td[class*="printindex-index-entry"], td[class*="printindex-index-subentry"]'
+    );
+
+    for (const td of tds) {
+      const a = td.querySelector('a');
+      if (!a) continue;
+
+      let n = a.nextSibling;
+      while (n && n.nodeType === Node.TEXT_NODE && (n.nodeValue || '').trim() === '') {
+        n = n.nextSibling;
+      }
+
+      if (!n || n.nodeType !== Node.TEXT_NODE) continue;
+
+      const v = n.nodeValue || '';
+      const t = v.trim();
+      if (!t.startsWith(':')) continue;
+
+      // Remove only the first ':' and keep any surrounding whitespace.
+      const replaced = v.replace(':', '');
+      if (replaced.trim() === '') td.removeChild(n);
+      else n.nodeValue = replaced;
+    }
+  }
+
   function hideNavPanel(panel) {
     if (!panel || panel.nodeType !== 1) return;
     panel.style.display = "none";
@@ -684,4 +720,5 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
   }
 
   window.addEventListener("DOMContentLoaded", ensureDocNav, { once: true });
+  window.addEventListener("DOMContentLoaded", cleanupPrintindexColons, { once: true });
 })();
