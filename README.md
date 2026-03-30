@@ -13,10 +13,9 @@ Right now the "gallery" is this README to keep the concept lightweight. If the i
    - Tip: if you host this repo on GitHub, use the `raw` file view so Violentmonkey recognizes it.
 
 ## Gallery
-
 | Script | Targets | Tags | Install | Details |
 | --- | --- | --- | --- | --- |
-| GNU Emacs Manual: reading card + theme toggle + nicer nav | `gnu.org/software/emacs/manual/` | `desktop` `mobile` `light` `dark` `auto` | `scripts/emacs-manual-themer/script.user.js` | `scripts/emacs-manual-themer/README.md` |
+| <a href="scripts/emacs-manual-themer/README.md"><img src="scripts/emacs-manual-themer/screenshots/screenshot-dark.jpg" alt="GNU Emacs Manual themer preview" width="360"></a><br><a href="scripts/emacs-manual-themer/README.md">GNU Emacs Manual - Reading Mode + Theme Toggle</a> | `gnu.org/software/emacs/manual/` | `desktop` `mobile` `light` `dark` `auto` | `scripts/emacs-manual-themer/script.user.js` | `scripts/emacs-manual-themer/README.md` |
 
 ## Contributing
 
