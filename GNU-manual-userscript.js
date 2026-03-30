@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Dark Toggle
 // @namespace    local.andrea.gnu-emacs-manual
-// @version      0.1.1
+// @version      0.2.0
 // @description  Improve readability (width/typography) + dark mode toggle on gnu.org Emacs manual pages
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*
@@ -261,6 +261,104 @@ html.vm-emacs-manual dl.table > dt:first-child { margin-top: 0; }
 html.vm-emacs-manual dl.table > dd { margin: 6px 0 0 0; }
 html.vm-emacs-manual dl.table > dd p { margin: 0; }
 
+/* ---------- Rebuilt nav (Prev/Up/Next + Contents/Index) ---------- */
+.vm-emacs-manual .vm-doc-nav {
+  margin: 14px 0;
+  padding: 12px;
+  border: 1px solid var(--vm-border);
+  border-radius: var(--vm-radius);
+  background: color-mix(in oklab, var(--vm-surface) 72%, transparent);
+}
+
+.vm-emacs-manual .vm-doc-nav[data-pos="top"] {
+  margin-top: 0;
+}
+
+.vm-emacs-manual .vm-doc-nav[data-pos="bottom"] {
+  margin-bottom: 0;
+}
+
+.vm-emacs-manual .vm-doc-nav-primary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.vm-emacs-manual .vm-doc-nav-item {
+  display: block;
+  padding: 10px 10px;
+  border-radius: calc(var(--vm-radius) - 2px);
+  border: 1px solid var(--vm-border);
+  background: color-mix(in oklab, var(--vm-surface) 85%, transparent);
+  text-decoration: none !important;
+}
+
+.vm-emacs-manual .vm-doc-nav-item:hover {
+  border-color: color-mix(in oklab, var(--vm-border) 60%, var(--vm-link) 40%);
+}
+
+.vm-emacs-manual .vm-doc-nav-kicker {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: ui-sans-serif, "Avenir Next", "Gill Sans", "Trebuchet MS", sans-serif;
+  font-size: 12px;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+  color: var(--vm-muted);
+}
+
+.vm-emacs-manual .vm-doc-nav-arrow {
+  opacity: .8;
+}
+
+.vm-emacs-manual .vm-doc-nav-title {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--vm-serif);
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--vm-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vm-emacs-manual .vm-doc-nav-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--vm-border);
+}
+
+.vm-emacs-manual .vm-doc-nav-secondary a {
+  font-family: ui-sans-serif, "Avenir Next", "Gill Sans", "Trebuchet MS", sans-serif;
+  font-size: 13px;
+  text-decoration: none !important;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--vm-border);
+  background: color-mix(in oklab, var(--vm-surface) 86%, transparent);
+}
+
+.vm-emacs-manual .vm-doc-nav-secondary a:hover {
+  border-color: color-mix(in oklab, var(--vm-border) 60%, var(--vm-link) 40%);
+}
+
+@media (max-width: 720px) {
+  .vm-emacs-manual .vm-doc-nav-primary {
+    grid-template-columns: 1fr;
+  }
+  .vm-emacs-manual .vm-doc-nav-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
 /* ---------- Floating toggle button ---------- */
 #vmEmacsManualThemeBtn {
   position: fixed;
@@ -361,4 +459,156 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
   }
 
   window.addEventListener("DOMContentLoaded", ensureButton, { once: true });
+
+  function hideNavPanel(panel) {
+    if (!panel || panel.nodeType !== 1) return;
+    panel.style.display = "none";
+
+    const prev = panel.previousElementSibling;
+    if (prev && prev.tagName === "HR") prev.style.display = "none";
+    const next = panel.nextElementSibling;
+    if (next && next.tagName === "HR") next.style.display = "none";
+  }
+
+  function pickLink(panel, rel, accesskey) {
+    if (!panel) return null;
+    let a = panel.querySelector(`a[rel="${rel}"]`);
+    if (!a && accesskey) a = panel.querySelector(`a[accesskey="${accesskey}"]`);
+    return a || null;
+  }
+
+  function extractNavData() {
+    const panels = Array.from(document.querySelectorAll(".nav-panel"));
+    if (!panels.length) return null;
+
+    const pickAcrossPanels = (rel, accesskey) => {
+      for (const p of panels) {
+        const a = pickLink(p, rel, accesskey);
+        if (a && a.getAttribute("href")) return a;
+      }
+      return null;
+    };
+
+    const prevA = pickAcrossPanels("prev", "p");
+    const upA = pickAcrossPanels("up", "u");
+    const nextA = pickAcrossPanels("next", "n");
+    const contentsA = pickAcrossPanels("contents") || pickAcrossPanels("toc") || pickAcrossPanels("tableofcontents");
+    const indexA = pickAcrossPanels("index");
+
+    const mk = (a) => {
+      if (!a) return null;
+      const href = a.getAttribute("href");
+      if (!href) return null;
+      const title = (a.textContent || "").trim().replace(/\s+/g, " ");
+      return { href, title: title || href };
+    };
+
+    const data = {
+      prev: mk(prevA),
+      up: mk(upA),
+      next: mk(nextA),
+      contents: mk(contentsA),
+      index: mk(indexA),
+      _panels: panels,
+    };
+
+    if (!data.prev && !data.up && !data.next && !data.contents && !data.index) return null;
+    return data;
+  }
+
+  function createNavItem(kind, label, arrow, link) {
+    if (!link) return null;
+
+    const a = document.createElement("a");
+    a.className = `vm-doc-nav-item vm-doc-nav-${kind}`;
+    a.href = link.href;
+    a.setAttribute("aria-label", `${label}: ${link.title}`);
+
+    const kicker = document.createElement("span");
+    kicker.className = "vm-doc-nav-kicker";
+
+    const kickerText = document.createElement("span");
+    kickerText.textContent = label;
+
+    const kickerArrow = document.createElement("span");
+    kickerArrow.className = "vm-doc-nav-arrow";
+    kickerArrow.textContent = arrow;
+
+    kicker.append(kickerText, kickerArrow);
+
+    const title = document.createElement("span");
+    title.className = "vm-doc-nav-title";
+    title.textContent = link.title;
+    title.title = link.title;
+
+    a.append(kicker, title);
+    return a;
+  }
+
+  function createNavBar(navData, pos) {
+    const nav = document.createElement("nav");
+    nav.className = "vm-doc-nav";
+    nav.setAttribute("data-pos", pos);
+    nav.setAttribute("aria-label", pos === "top" ? "Page navigation (top)" : "Page navigation (bottom)");
+
+    const primary = document.createElement("div");
+    primary.className = "vm-doc-nav-primary";
+
+    const prev = createNavItem("prev", "Previous", "<-", navData.prev);
+    const up = createNavItem("up", "Up", "^", navData.up);
+    const next = createNavItem("next", "Next", "->", navData.next);
+
+    // Keep a stable 3-column rhythm: if a slot is missing, insert an empty spacer.
+    const spacer = () => {
+      const s = document.createElement("div");
+      s.setAttribute("aria-hidden", "true");
+      return s;
+    };
+
+    primary.append(prev || spacer(), up || spacer(), next || spacer());
+    nav.appendChild(primary);
+
+    const secondaryLinks = [];
+    if (navData.contents) secondaryLinks.push({ label: "Contents", ...navData.contents });
+    if (navData.index) secondaryLinks.push({ label: "Index", ...navData.index });
+
+    if (secondaryLinks.length) {
+      const secondary = document.createElement("div");
+      secondary.className = "vm-doc-nav-secondary";
+
+      for (const l of secondaryLinks) {
+        const a = document.createElement("a");
+        a.href = l.href;
+        a.textContent = l.label;
+        a.setAttribute("aria-label", `${l.label}: ${l.title}`);
+        a.title = l.title;
+        secondary.appendChild(a);
+      }
+
+      nav.appendChild(secondary);
+    }
+
+    return nav;
+  }
+
+  function ensureDocNav() {
+    if (document.querySelector(".vm-doc-nav")) return;
+
+    const navData = extractNavData();
+    if (!navData) return;
+
+    const wrapper = document.querySelector(
+      'body > div[class$="-level-extent"], body > div.section-level-extent, body > div.chapter-level-extent, body > div.top-level-extent'
+    ) || document.body;
+
+    const topNav = createNavBar(navData, "top");
+    const bottomNav = createNavBar(navData, "bottom");
+
+    wrapper.insertBefore(topNav, wrapper.firstChild);
+    wrapper.appendChild(bottomNav);
+
+    for (const p of navData._panels) hideNavPanel(p);
+  }
+
+  window.addEventListener("DOMContentLoaded", ensureDocNav, { once: true });
 })();
