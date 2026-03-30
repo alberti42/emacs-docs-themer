@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Dark Toggle
 // @namespace    local.andrea.gnu-emacs-manual
-// @version      0.2.3
+// @version      0.2.4
 // @description  Improve readability (width/typography) + dark mode toggle on gnu.org Emacs manual pages
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*
@@ -105,8 +105,9 @@
   --vm-bg: #0f1115;
   --vm-surface: #151923;
   --vm-fg: #e9edf5;
-  --vm-code-bg: #0c0f15;
-  --vm-code-border: rgba(255,255,255,.14);
+  /* Inline code/tags should stand out from the card surface. */
+  --vm-code-bg: rgba(255,255,255,.06);
+  --vm-code-border: rgba(255,255,255,.24);
   --vm-kbd-bg: rgba(255,255,255,.10);
 
   --vm-shadow: 0 14px 40px rgba(0,0,0,.50);
