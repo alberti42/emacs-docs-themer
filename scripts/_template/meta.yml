@@ -1,0 +1,16 @@
+name: "My Script Name"
+author: "your-handle"
+
+targets:
+  - "https://example.com/*"
+
+tags:
+  platform:
+    - desktop
+  theme:
+    - light
+  type:
+    - restyle
+
+screenshots:
+  preview: "screenshots/preview.png"
