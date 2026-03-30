@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Dark Toggle
 // @namespace    local.andrea.gnu-emacs-manual
-// @version      0.2.5
+// @version      0.2.6
 // @description  Improve readability (width/typography) + dark mode toggle on gnu.org Emacs manual pages
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*
@@ -224,13 +224,6 @@ html.vm-emacs-manual .samp {
   border: 1px solid var(--vm-code-border);
   padding: .12em .38em;
   border-radius: 10px;
-}
-
-/* If inline code is wrapped in a link (e.g. index entries),
-   keep the chip clean: no underline inside the chip. */
-html.vm-emacs-manual a code,
-html.vm-emacs-manual a code * {
-  text-decoration: none !important;
 }
 
 html.vm-emacs-manual kbd,
