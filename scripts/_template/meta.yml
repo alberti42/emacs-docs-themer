@@ -12,7 +12,7 @@ tags:
   theme:
     - light
   type:
-    - restyle
+    - navigation
 
 screenshots:
   preview: "screenshots/preview.png"

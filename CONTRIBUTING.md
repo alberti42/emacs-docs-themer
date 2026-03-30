@@ -37,7 +37,7 @@ Keep it simple and consistent:
 - `tags`:
   - `platform`: `desktop` and/or `mobile`
   - `theme`: `light`, `dark`, and/or `auto`
-  - `type`: a few short keywords (e.g. `restyle`, `navigation`, `fixes`, `productivity`)
+  - `type`: a few short keywords (e.g. `navigation`, `layout`, `typography`, `dark-mode-fixes`, `productivity`)
 - `screenshots.preview`: relative path to preview image
 
 ## Safety / Privacy Rules

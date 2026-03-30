@@ -13,14 +13,16 @@ Right now the "gallery" is this README to keep the concept lightweight. If the i
    - Tip: if you host this repo on GitHub, use the `raw` file view so Violentmonkey recognizes it.
 
 ## Gallery
-| Script | Targets | Tags | Install | Details |
+| Preview (Dark) | Preview (Light) | Userscript (install) | Author / Updated | Tags |
 | --- | --- | --- | --- | --- |
-| <a href="scripts/emacs-manual-themer/README.md"><img src="scripts/emacs-manual-themer/screenshots/screenshot-dark.jpg" alt="GNU Emacs Manual themer preview" width="360"></a><br><a href="scripts/emacs-manual-themer/README.md">GNU Emacs Manual - Reading Mode + Theme Toggle</a> | `gnu.org/software/emacs/manual/` | `desktop` `mobile` `light` `dark` `auto` | `scripts/emacs-manual-themer/script.user.js` | `scripts/emacs-manual-themer/README.md` |
+| <img src="scripts/emacs-manual-themer/screenshots/screenshot-dark.jpg" alt="GNU Emacs Manual themed (dark)" width="320"> | <img src="scripts/emacs-manual-themer/screenshots/screenshot-light.jpg" alt="GNU Emacs Manual themed (light)" width="320"> | [Reading Card + Theme Toggle (Emacs Manual)](scripts/emacs-manual-themer/script.user.js?raw=1) | Andrea Alberti (March 2026) | `desktop` `mobile` `dark` `light` `auto` `navigation` |
 
 ## Contributing
 
 PRs are welcome. Each new userscript should be added under `scripts/<slug>/` with at least one representative screenshot.
 
 Please include a contribution date in the script metadata so readers have a sense of how recent the script is.
+
+The gallery links to the userscript file with `?raw=1` so Violentmonkey can install it directly.
 
 See `CONTRIBUTING.md`.
