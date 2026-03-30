@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Theme Toggle
 // @namespace    community.userscripts.emacs-docs-themer
-// @version      0.2.6
+// @version      0.2.7
 // @author       Andrea Alberti (March 2026)
 // @description  Improve readability (reading card/typography) + Light/Dark/Auto toggle + nicer nav for GNU Emacs manuals
 // @match        https://www.gnu.org/software/emacs/manual/*
@@ -115,10 +115,17 @@
   --vm-focus: rgba(123, 182, 255, .22);
 }
 
-html.vm-emacs-manual, html.vm-emacs-manual body {
-  background: radial-gradient(1200px 800px at 20% -10%, rgba(123,182,255,.12), transparent 55%),
-              radial-gradient(1000px 700px at 100% 0%, rgba(210,166,255,.10), transparent 55%),
-              var(--vm-bg) !important;
+html.vm-emacs-manual,
+html.vm-emacs-manual body {
+  /* Apply the same canvas background to both html + body.
+     On short pages, some browsers can otherwise show a slightly different
+     bottom filler if body ends before the viewport. */
+  background-color: var(--vm-bg) !important;
+  background-image:
+    radial-gradient(1200px 800px at 20% -10%, rgba(123,182,255,.12), transparent 55%),
+    radial-gradient(1000px 700px at 100% 0%, rgba(210,166,255,.10), transparent 55%) !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
   color: var(--vm-fg) !important;
 }
 
@@ -128,10 +135,10 @@ html.vm-emacs-manual body {
   line-height: 1.7 !important;
   letter-spacing: 0.1px;
   margin: 0 !important;
+  min-height: 100vh;
   max-width: none !important; /* undo gnu.org style.css frame */
   padding: 0 !important;
   border: 0 !important;
-  background: transparent !important;
 }
 
 @media (max-width: 520px) {
