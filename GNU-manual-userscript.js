@@ -143,6 +143,7 @@ html.vm-emacs-manual ::selection {
 }
 
 /* Constrain the main Texinfo wrapper(s) without depending on a single class name */
+html.vm-emacs-manual body > .vm-doc-card,
 html.vm-emacs-manual body > div[class$="-level-extent"],
 html.vm-emacs-manual body > div.section-level-extent,
 html.vm-emacs-manual body > div.chapter-level-extent,
@@ -413,6 +414,41 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
 }
   `);
 
+  function ensureDocCard() {
+    // Most manual pages have a single "*-level-extent" wrapper.
+    // The top index page uses siblings: #content.inner + .element-contents + .element-shortcontents.
+    const hasExtentWrapper = !!document.querySelector(
+      'body > .vm-doc-card, body > div[class$="-level-extent"], body > div.section-level-extent, body > div.chapter-level-extent, body > div.top-level-extent'
+    );
+    if (hasExtentWrapper) return;
+
+    const content = document.querySelector('body > #content.inner');
+    if (!content) return;
+
+    const card = document.createElement('div');
+    card.className = 'vm-doc-card';
+    document.body.insertBefore(card, content);
+
+    const shouldMove = (el) => {
+      if (!el || el.nodeType !== 1) return false;
+      if (el.id === 'content' && el.classList.contains('inner')) return true;
+      if (el.classList.contains('element-contents')) return true;
+      if (el.classList.contains('element-shortcontents')) return true;
+      if (el.classList.contains('nav-panel')) return true;
+      if (el.tagName === 'HR') return true;
+      return false;
+    };
+
+    // Move the known top-page blocks into a single card.
+    // Only move recognized elements so we don't accidentally wrap user-script UI.
+    let node = content;
+    while (node) {
+      const next = node.nextSibling;
+      if (shouldMove(node)) card.appendChild(node);
+      node = next;
+    }
+  }
+
   function ensureButton() {
     if (document.getElementById("vmEmacsManualThemeBtn")) return;
 
@@ -458,6 +494,7 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
     render();
   }
 
+  window.addEventListener("DOMContentLoaded", ensureDocCard, { once: true });
   window.addEventListener("DOMContentLoaded", ensureButton, { once: true });
 
   function hideNavPanel(panel) {
@@ -598,7 +635,7 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
     if (!navData) return;
 
     const wrapper = document.querySelector(
-      'body > div[class$="-level-extent"], body > div.section-level-extent, body > div.chapter-level-extent, body > div.top-level-extent'
+      'body > .vm-doc-card, body > div[class$="-level-extent"], body > div.section-level-extent, body > div.chapter-level-extent, body > div.top-level-extent'
     ) || document.body;
 
     const topNav = createNavBar(navData, "top");
