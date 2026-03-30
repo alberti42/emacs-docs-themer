@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Dark Toggle
 // @namespace    local.andrea.gnu-emacs-manual
-// @version      0.2.0
+// @version      0.2.1
 // @description  Improve readability (width/typography) + dark mode toggle on gnu.org Emacs manual pages
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*
@@ -244,6 +244,23 @@ html.vm-emacs-manual pre {
   padding: 14px 14px;
   border-radius: var(--vm-radius);
   overflow: auto;
+}
+
+/* Tables: gnu.org base CSS forces white td/th backgrounds.
+   In dark mode that becomes light-on-white (unreadable). */
+html.vm-emacs-manual.vm-effective-dark table,
+html.vm-emacs-manual.vm-effective-dark td,
+html.vm-emacs-manual.vm-effective-dark th {
+  background: transparent !important;
+  color: var(--vm-fg) !important;
+}
+
+/* Printindex hover highlight: replace tan with a dark-mode-safe tint */
+html.vm-emacs-manual.vm-effective-dark table[class*="printindex"] tr:hover td[class*="index-entry"],
+html.vm-emacs-manual.vm-effective-dark table[class*="printindex"] tr:hover td[class*="index-entry"] ~ td,
+html.vm-emacs-manual.vm-effective-dark table[class*="printindex"] tr:hover td[class*="index-subentry"],
+html.vm-emacs-manual.vm-effective-dark table[class*="printindex"] tr:hover td[class*="index-subentry"] ~ td {
+  background: rgba(123, 182, 255, .10) !important;
 }
 
 /* Texinfo "table" dl formatting */
