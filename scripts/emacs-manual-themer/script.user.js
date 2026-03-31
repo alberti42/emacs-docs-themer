@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GNU Emacs Manual - Reading Mode + Theme Toggle
 // @namespace    community.userscripts.emacs-docs-themer
-// @version      0.2.7
+// @version      0.2.8
 // @author       Andrea Alberti (March 2026)
 // @description  Improve readability (reading card/typography) + Light/Dark/Auto toggle + nicer nav for GNU Emacs manuals
 // @match        https://www.gnu.org/software/emacs/manual/*
@@ -137,7 +137,8 @@ html.vm-emacs-manual body {
   margin: 0 !important;
   min-height: 100vh;
   max-width: none !important; /* undo gnu.org style.css frame */
-  padding: 0 !important;
+  /* Keep the reading card off the very top edge. */
+  padding: clamp(10px, 2.5vh, 26px) 0 !important;
   border: 0 !important;
 }
 
