@@ -9,6 +9,8 @@ Improves the reading experience on the official GNU Emacs manuals:
 - rebuilt symmetric navigation (Prev / Up / Next + Contents / Index)
 - dark-mode fixes for upstream hard-coded table and definition-list colors
 
+See [SPECIFICATIONS.md](SPECIFICATIONS.md) for a detailed list of specifications of the userscript.
+
 ## Install
 
 Open `scripts/emacs-manual-themer/script.user.js` with Violentmonkey installed.
