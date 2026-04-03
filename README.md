@@ -9,7 +9,7 @@ Right now the "gallery" is this README to keep the concept lightweight. If the i
 1) Install Violentmonkey
    - Desktop: https://violentmonkey.github.io/
    - Mobile: Firefox for Android supports extensions; install Violentmonkey there.
-2) Open a script file in this repo and install it.
+2) Select a userscript from the gallery below and click its "view" link to open its README and installation instructions.
 
 ## Gallery
 | Preview (Dark) | Preview (Light) | Userscript (view) | Author / Updated | Tags |

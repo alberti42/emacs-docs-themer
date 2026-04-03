@@ -17,6 +17,12 @@ See [SPECIFICATIONS.md](SPECIFICATIONS.md) for a detailed list of specifications
 
 Alternatively, open `script.user.js` in this folder and click the "Raw" button.
 
+## Try it out
+
+Once installed, visit any official manual page to see the new layout and theme toggle:
+
+👉 **[An Introduction to Programming in Emacs Lisp](https://www.gnu.org/software/emacs/manual/html_node/eintr/index.html)**
+
 ## Target
 
 - `https://www.gnu.org/software/emacs/manual/*`
