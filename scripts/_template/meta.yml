@@ -1,5 +1,7 @@
 name: "My Script Name"
 author: "your-handle"
+contributed: "2026-03-30"
+updated: "2026-03-30"
 
 targets:
   - "https://example.com/*"

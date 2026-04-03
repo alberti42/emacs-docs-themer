@@ -1,0 +1,31 @@
+name: "GNU Emacs Manual - Reading Mode + Theme Toggle"
+author: "Andrea Alberti"
+contributed: "2026-03-30"
+updated: "2026-03-30"
+
+targets:
+  - "https://www.gnu.org/software/emacs/manual/*"
+  - "https://gnu.org/software/emacs/manual/*"
+
+tags:
+  platform:
+    - desktop
+    - mobile
+  theme:
+    - light
+    - dark
+    - auto
+  type:
+    - restyle
+    - navigation
+    - dark-mode-fixes
+
+screenshots:
+  preview: "screenshots/preview.jpg"
+  extra:
+    - "screenshots/screenshot-light.jpg"
+    - "screenshots/screenshot-dark.jpg"
+
+notes:
+  - "Author: Andrea Alberti (March 2026)"
+  - "Shift-click theme button to set Auto"

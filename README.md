@@ -16,10 +16,12 @@ Right now the "gallery" is this README to keep the concept lightweight. If the i
 
 | Script | Targets | Tags | Install | Details |
 | --- | --- | --- | --- | --- |
-| GNU Emacs Manual: reading card + theme toggle + nicer nav | `gnu.org/software/emacs/manual/` | `desktop` `mobile` `light` `dark` `auto` | `GNU-manual-userscript.js` | `AGENTS.md` |
+| GNU Emacs Manual: reading card + theme toggle + nicer nav | `gnu.org/software/emacs/manual/` | `desktop` `mobile` `light` `dark` `auto` | `scripts/emacs-manual-themer/script.user.js` | `scripts/emacs-manual-themer/README.md` |
 
 ## Contributing
 
 PRs are welcome. Each new userscript should be added under `scripts/<slug>/` with at least one representative screenshot.
+
+Please include a contribution date in the script metadata so readers have a sense of how recent the script is.
 
 See `CONTRIBUTING.md`.

@@ -1,8 +1,9 @@
 // ==UserScript==
-// @name         GNU Emacs Manual - Reading Mode + Dark Toggle
-// @namespace    local.andrea.gnu-emacs-manual
+// @name         GNU Emacs Manual - Reading Mode + Theme Toggle
+// @namespace    community.userscripts.emacs-docs-themer
 // @version      0.2.6
-// @description  Improve readability (width/typography) + dark mode toggle on gnu.org Emacs manual pages
+// @author       Andrea Alberti (March 2026)
+// @description  Improve readability (reading card/typography) + Light/Dark/Auto toggle + nicer nav for GNU Emacs manuals
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*
 // @match        https://gnu.org/software/emacs/manual/*
@@ -530,38 +531,6 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
     render();
   }
 
-  window.addEventListener("DOMContentLoaded", ensureDocCard, { once: true });
-  window.addEventListener("DOMContentLoaded", ensureButton, { once: true });
-
-  function cleanupPrintindexColons() {
-    // Printindex entries often have a trailing ':' outside the <a>.
-    // Remove it to keep the entry chip visually clean.
-    const tds = document.querySelectorAll(
-      'td.printindex-index-entry, td.printindex-index-subentry, td[class*="printindex-index-entry"], td[class*="printindex-index-subentry"]'
-    );
-
-    for (const td of tds) {
-      const a = td.querySelector('a');
-      if (!a) continue;
-
-      let n = a.nextSibling;
-      while (n && n.nodeType === Node.TEXT_NODE && (n.nodeValue || '').trim() === '') {
-        n = n.nextSibling;
-      }
-
-      if (!n || n.nodeType !== Node.TEXT_NODE) continue;
-
-      const v = n.nodeValue || '';
-      const t = v.trim();
-      if (!t.startsWith(':')) continue;
-
-      // Remove only the first ':' and keep any surrounding whitespace.
-      const replaced = v.replace(':', '');
-      if (replaced.trim() === '') td.removeChild(n);
-      else n.nodeValue = replaced;
-    }
-  }
-
   function hideNavPanel(panel) {
     if (!panel || panel.nodeType !== 1) return;
     panel.style.display = "none";
@@ -594,7 +563,10 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
     const prevA = pickAcrossPanels("prev", "p");
     const upA = pickAcrossPanels("up", "u");
     const nextA = pickAcrossPanels("next", "n");
-    const contentsA = pickAcrossPanels("contents") || pickAcrossPanels("toc") || pickAcrossPanels("tableofcontents");
+    const contentsA =
+      pickAcrossPanels("contents") ||
+      pickAcrossPanels("toc") ||
+      pickAcrossPanels("tableofcontents");
     const indexA = pickAcrossPanels("index");
 
     const mk = (a) => {
@@ -651,7 +623,10 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
     const nav = document.createElement("nav");
     nav.className = "vm-doc-nav";
     nav.setAttribute("data-pos", pos);
-    nav.setAttribute("aria-label", pos === "top" ? "Page navigation (top)" : "Page navigation (bottom)");
+    nav.setAttribute(
+      "aria-label",
+      pos === "top" ? "Page navigation (top)" : "Page navigation (bottom)"
+    );
 
     const primary = document.createElement("div");
     primary.className = "vm-doc-nav-primary";
@@ -699,9 +674,10 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
     const navData = extractNavData();
     if (!navData) return;
 
-    const wrapper = document.querySelector(
-      'body > .vm-doc-card, body > div[class$="-level-extent"], body > div.section-level-extent, body > div.chapter-level-extent, body > div.top-level-extent'
-    ) || document.body;
+    const wrapper =
+      document.querySelector(
+        'body > .vm-doc-card, body > div[class$="-level-extent"], body > div.section-level-extent, body > div.chapter-level-extent, body > div.top-level-extent'
+      ) || document.body;
 
     const topNav = createNavBar(navData, "top");
     const bottomNav = createNavBar(navData, "bottom");
@@ -712,6 +688,37 @@ html.vm-emacs-manual dl.table > dd p { margin: 0; }
     for (const p of navData._panels) hideNavPanel(p);
   }
 
+  function cleanupPrintindexColons() {
+    // Printindex entries often have a trailing ':' outside the <a>.
+    // Remove it to keep the entry chip visually clean.
+    const tds = document.querySelectorAll(
+      'td.printindex-index-entry, td.printindex-index-subentry, td[class*="printindex-index-entry"], td[class*="printindex-index-subentry"]'
+    );
+
+    for (const td of tds) {
+      const a = td.querySelector('a');
+      if (!a) continue;
+
+      let n = a.nextSibling;
+      while (n && n.nodeType === Node.TEXT_NODE && (n.nodeValue || '').trim() === '') {
+        n = n.nextSibling;
+      }
+
+      if (!n || n.nodeType !== Node.TEXT_NODE) continue;
+
+      const v = n.nodeValue || '';
+      const t = v.trim();
+      if (!t.startsWith(':')) continue;
+
+      // Remove only the first ':' and keep any surrounding whitespace.
+      const replaced = v.replace(':', '');
+      if (replaced.trim() === '') td.removeChild(n);
+      else n.nodeValue = replaced;
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", ensureDocCard, { once: true });
+  window.addEventListener("DOMContentLoaded", ensureButton, { once: true });
   window.addEventListener("DOMContentLoaded", ensureDocNav, { once: true });
   window.addEventListener("DOMContentLoaded", cleanupPrintindexColons, { once: true });
 })();

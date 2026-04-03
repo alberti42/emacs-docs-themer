@@ -31,6 +31,8 @@ Keep it simple and consistent:
 
 - `name`: script display name
 - `author`: handle/name
+- `contributed`: contribution date (ISO-8601, e.g. `2026-03-30`)
+- `updated`: optional last update date (ISO-8601)
 - `targets`: list of URL patterns
 - `tags`:
   - `platform`: `desktop` and/or `mobile`
