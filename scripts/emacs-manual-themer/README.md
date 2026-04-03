@@ -13,7 +13,9 @@ See [SPECIFICATIONS.md](SPECIFICATIONS.md) for a detailed list of specifications
 
 ## Install
 
-Open `scripts/emacs-manual-themer/script.user.js` with Violentmonkey installed.
+👉 **[Click here to install from GitHub](https://github.com/alberti42/emacs-docs-themer/raw/main/scripts/emacs-manual-themer/script.user.js)** (requires Violentmonkey/Tampermonkey)
+
+Alternatively, open `script.user.js` in this folder and click the "Raw" button.
 
 ## Target
 
