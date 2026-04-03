@@ -23,3 +23,7 @@ PRs are welcome. Each new userscript should be added under `scripts/<slug>/` wit
 Please include a contribution date in the script metadata so readers have a sense of how recent the script is.
 
 See `CONTRIBUTING.md`.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 or later (GPLv3+). See [LICENSE](LICENSE) for details.

@@ -3,6 +3,7 @@
 // @namespace    community.userscripts.emacs-docs-themer
 // @version      0.2.8
 // @author       Andrea Alberti (March 2026)
+// @license      GPL-3.0-or-later
 // @description  Improve readability (reading card/typography) + Light/Dark/Auto toggle + nicer nav for GNU Emacs manuals
 // @match        https://www.gnu.org/software/emacs/manual/*
 // @match        http://www.gnu.org/software/emacs/manual/*

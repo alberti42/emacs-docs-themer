@@ -12,6 +12,7 @@ Required contents:
 
 - `scripts/<slug>/script.user.js`
   - Must include a userscript header (`// ==UserScript== ... // ==/UserScript==`).
+  - Must include the license header (`@license GPL-3.0-or-later`).
   - Prefer readable source (no minified/obfuscated code).
   - Avoid broad matches; keep `@match`/`@include` specific.
 - `scripts/<slug>/README.md`
@@ -39,6 +40,10 @@ Keep it simple and consistent:
   - `theme`: `light`, `dark`, and/or `auto`
   - `type`: a few short keywords (e.g. `navigation`, `layout`, `typography`, `dark-mode-fixes`, `productivity`)
 - `screenshots.preview`: relative path to preview image
+
+## Licensing
+
+By contributing to this repository, you agree that your work will be licensed under the GNU General Public License v3.0 or later (GPLv3+).
 
 ## Safety / Privacy Rules
 
