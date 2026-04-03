@@ -24,9 +24,5 @@ Alternatively, open `script.user.js` in this folder and click the "Raw" button.
 
 ## Screenshots
 
-Place screenshots in `scripts/emacs-manual-themer/screenshots/`:
+<img src="screenshots/screenshot-light.jpg" alt="Light Mode" width="45%"> <img src="screenshots/screenshot-dark.jpg" alt="Dark Mode" width="45%">
 
-- `screenshot-light.jpg`
-- `screenshot-dark.jpg`
-
-Optionally copy one of them to `preview.jpg`.
